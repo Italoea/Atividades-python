@@ -1,64 +1,64 @@
-print("---------- Sistema de cadastro ----------")
+def adicionar_cliente(clientes):
+    
+    # Adiciona um novo cliente ao dicionário.
+    
+    id_cliente = input("Digite o ID do cliente: ").strip()
+    if id_cliente in clientes:
+        print("Erro: Já existe um cliente com esse ID.")
+        return
 
-end = False
-clientes = {}
+    nome = input("Digite o nome do cliente: ").strip()
+    email = input("Digite o e-mail do cliente: ").strip()
+    clientes[id_cliente] = {"nome": nome, "email": email}
+    print("Cliente adicionado com sucesso!")
 
-def show_clientes():
-    for i in clientes.keys():
-        print(f"\n- Cliente: {i}" # Imprime o dicionário clientes, de forma formatada
-              f"\nSexo: {clientes[i]['sexo']}"
-              f"\nIdade: {clientes[i]['idade']}")
+def visualizar_clientes(clientes):
+    
+    # Exibe todos os clientes cadastrados.
+    
+    if not clientes:
+        print("Nenhum cliente cadastrado.")
+    else:
+        print("Clientes cadastrados:")
+        for id_cliente, info in clientes.items():
+            print(f"ID: {id_cliente}, Nome: {info['nome']}, E-mail: {info['email']}")
 
-def ad_cliente():
-    # Nome do cliente
-    nome = input(f"Qual o nome do cliente? ")
-    while nome in clientes.keys() or nome == '': # Verifica se o cliente já é existente
-        nome = input("Esse cliente já existe ou nulo. Crie com outro nome\n: ")
+def remover_cliente(clientes):
+    
+    # Remove um cliente do dicionário pelo ID.
+    
+    id_cliente = input("Digite o ID do cliente que deseja remover: ").strip()
+    if id_cliente in clientes:
+        del clientes[id_cliente]
+        print("Cliente removido com sucesso!")
+    else:
+        print("Erro: Cliente não encontrado.")
 
-    # Sexo do cliente
+def menu():
+    
+    # Menu principal do sistema de cadastro de clientes.
+    
+    clientes = {}
+    while True:
+        print("\n--- Sistema de Cadastro de Clientes ---")
+        print("1. Adicionar cliente")
+        print("2. Visualizar clientes")
+        print("3. Remover cliente")
+        print("4. Sair")
+        opcao = input("Escolha uma opção: ").strip()
 
-    print("Qual o sexo do cliente?"
-          "\n[M] - Masculino"
-          "\n[F] - Feminino")
-    sexo = input(": ").lower()
+        if opcao == "1":
+            adicionar_cliente(clientes)
+        elif opcao == "2":
+            visualizar_clientes(clientes)
+        elif opcao == "3":
+            remover_cliente(clientes)
+        elif opcao == "4":
+            print("Saindo do sistema. Até logo!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
 
-    while not sexo == "f" and not sexo == "m":
-        print("Escolha entre:"
-              "\n[M] - Masculino"
-              "\n[F] - Feminino")
-        sexo = input(": ").lower()
-
-    # Idade do cliente
-
-    idade = input(f"Qual a idade do cliente.\n: ")
-
-    while not idade.isnumeric():
-        idade = input("Idade precisa ser um número\n: ")
-    int(idade)
-    clientes[nome] = {'sexo':sexo, 'idade':idade} # Adiciona mais elemento no dicionário
-
-def del_cliente():
-    nome = input(f"Qual o nome do cliente a ser deletado?\n: ")
-    while not nome in clientes.keys() or nome == '':
-        nome = input("Cliente não existe ou nulo. Escolha outro nome\n: ")
-
-    clientes.pop(nome)
-
-
-while not end:
-    print("\n\nQual ação pretende tomar agora?"
-          "\n[0] - Ver clientes atuais."
-          "\n[1] - Adicionar cliente."
-          "\n[2] - Remover um cliente.")
-    act = input(": ")
-
-    while not act.isnumeric() or not (0 <= int(act) <= 2):
-        act = input("Digite alguma opção válida\n: ")
-
-    # Verifica a ação que pode ser tomada
-    if act == "0":
-        show_clientes()
-    elif act == "1":
-        ad_cliente()
-    elif act == "2":
-        del_cliente()
+# Executar o sistema
+if __name__ == "__main__":
+    menu()

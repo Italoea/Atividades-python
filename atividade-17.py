@@ -1,44 +1,37 @@
-from random import randint
 import random
+import string
 
-# Definimos o que a nossa senha irá conter
-letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-simbolos = ['!', '@', '#', '$', '%', '&', '*']
+def gerar_senha(nivel):
+    if nivel == "fraca":
+        # Apenas letras minúsculas 6 á 8 caracteres
+        caracteres = string.ascii_lowercase
+        tamanho = random.randint(6, 8)
+    elif nivel == "media":
+        # Letras maiúsculas minúsculas e números, 8 á 12 caracteres
+        caracteres = string.ascii_letters + string.digits
+        tamanho = random.randint(8, 12)
+    elif nivel == "forte":
+        # Letras maiúsculas, minúsculas, números e símbolos, 12-16 caracteres
+        caracteres = string.ascii_letters + string.digits + string.punctuation
+        tamanho = random.randint(12, 16)
+    else:
+        raise ValueError("Nível inválido! Escolha entre 'fraca', 'media' ou 'forte'.")
 
-def passwords(level: int):
-    senha = ''
-
-    # Testamos qual nível foi escolhido
-    # Quanto mais alto o nível, mais coisas incrementamos na senha
-    if level == 0:
-        for i in range(4):
-            senha += random.choice(letras)
-        for i in range(1):
-           senha += str(random.choice(num))
-
-    elif level == 1:
-        for i in range(5):
-            n_random = randint(0, 9)
-            senha += random.choice(letras)
-            senha += str(random.choice(num)) if n_random % 2 == 0 else random.choice(simbolos)
-
-    elif level == 2:
-        for i in range(8):
-            n_random = randint(0, 9)
-            senha += random.choice(letras) if n_random % 2 == 0 else str(random.choice(letras)).upper()
-            n_random = randint(0, 9)
-            senha += str(random.choice(num)) if n_random % 2 == 0 else random.choice(simbolos)
-
+    # Gerar a senha aleatória
+    senha = ''.join(random.choice(caracteres) for _ in range(tamanho))
     return senha
-while True:
-    print("Qual o tipo de senha que você quer gerar ?")
-    level = input("[0] - Fraca\n[1] - Média\n[2] - Forte\n: ")
+if __name__ == "__main__":
+    print("Escolha o nível de segurança para sua senha:")
+    print("1. Fraca")
+    print("2. Média")
+    print("3. Forte")
+    escolha = input("Digite 1, 2 ou 3: ").strip()
+    niveis = {"1": "fraca", "2": "media", "3": "forte"}
+    nivel_selecionado = niveis.get(escolha)
 
-    while not level.isnumeric() or (int(level) < 0 or int(level) > 2): # Verifica se foi digitado o nivel, corretamente
-        print("O tipo tem de ser um número!!!\n")
-        print("Qual o tipo de senha que você quer gerar ?")
-        level = input("[0] - Fraca\n[1] - Média\n[2] - Forte\n: ")
+    if nivel_selecionado:
+        senha = gerar_senha(nivel_selecionado)
+        print(f"Sua senha {nivel_selecionado} é: {senha}")
+    else:
+        print("Opção inválida! Tente novamente.")
 
-    level = int(level)
-    print(passwords(level))
