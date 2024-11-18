@@ -1,50 +1,47 @@
-from random import randint
+import random # importei a bibioteca random
 
-print("__________ JOGO DA FORCA __________")
+palavra = random.choice([ "casa", "carro", "floresta", "rio", "montanha", "cidade", "livro", "escola", "computador", "janela",
+    "porta", "mesa", "cadeira", "amigo", "sol", "lua", "estrela", "vento", "chuva", "tempo",
+    "relógio", "chave", "telefone", "papel", "caneta", "viagem", "praia", "mundo", "água", "fogo",
+    "terra", "ar", "animais", "fruta", "planta", "flor", "árvore", "pessoa", "família", "amor",
+    "amizade", "história", "poema", "musica", "filme", "arte", "foto", "natureza", "mar", "lago",
+    "passado", "presente", "futuro", "memória", "vida", "saúde", "doença", "dor", "remédio", "sorriso",
+    "lágrima", "alegria", "tristeza", "medo", "sonho", "pesadelo", "esperança", "fé", "paz", "guerra",
+    "luta", "vitória", "derrota", "corrida", "jogo", "esporte", "trabalho", "dinheiro", "férias", "tempo",
+    "energia", "força", "luz", "sombra", "mistério", "segredo", "verdade", "mentira", "sabedoria", "inteligência",
+    "conhecimento", "ciência", "tecnologia", "futebol", "basquete", "volei", "comida", "bebida", "doce", "sal",
+    "pimenta", "arroz", "feijão", "pizza", "chocolate", "bolo"
+]) # inseri palavras em uma lista
+letras_usuario = [ ] # criei uma cariavel para as letras que o usuario digitar ser inseridas.
+chances = 10 # limitei as chances 
+ganhou_jogo = False # coloquei uma variavel para mostrar se a pessoa ganhou ou perdeu
 
-words = ["livro","caneta","garfo","panela","mesa","cama","microfone","celular","martelo","bolsa","criança","menina",
-         "garoto","pai","mãe","homem","mulher","professor","médica","estudante","ator","empresário","cachorro","gato",
-         "cavalo","tigre","papagaio","mico","capivara","palmeira","roseira","samambaia","capim","coqueiro","girassol",
-        ]
+while True:
+    for letra in palavra: # percorre cada letra da palavra
+        if letra.lower() in letras_usuario:
+            print (letra, end=" ")
+        else:
+            print ("_", end= " ")
 
-random = randint(0,len(words)-1) # escolhe uma palavra
-word = list(words[random])
-c_letter = []
-w_letter = []
-s_word=list('-' * len(word))
-vida = 10
-fim = False
+    print ( f"Você tem {chances} chances")
 
-while not fim:
-    print("\n\n----- ----- -----")
+    tentativa = input ("Escolha uma letra:")
 
-    print(f"Letras restantes: {len(word)}\nTentativas restantes: {life}")
-    print(f"Acertos: {c_letter}\nErros:   {w_letter}")
+    letras_usuario.append(tentativa.lower())
 
-    print(f"\nPalavra sercreta: ", end="")
-    for n in s_word:print(f"{n}",end="")
+    if tentativa.lower () not in palavra.lower(): # se a letra inserida não tiver na palavra, o jogador irá perder uma chance.
+        chances -=1
 
-    letter = str(input("\nDigite uma letra: "))
+    ganhou = True
+    for letra in palavra:
+        if letra.lower()not in letras_usuario:
+            ganhou = False
 
-    if letter in word: # Verifica se a letra digitada tem na palavra
-        if not letter in c_letter:
-            c_letter.append(letter)
-        for i in range(0, len(word)):
-            if letter == word[i]:
-                s_word[i] = word[i]
-    else:
-        if not letter in w_letter:
-            w_letter.append(letter)
-            life = life - 1
+    if chances ==0 or ganhou: # se as chances se esgotarem o jogo para e se o jogador ganhar irá parar também.
 
+        break
 
-    if word == s_word: # Se apalavra for a certa
-        print("---------- Parabéns, você ganhou. ----------")
-        print("A palavra é: ", end="")
-        for n in word: print(f"{n}", end="")
-        end = True
-    elif life == 0: # se as vidas acabarem
-        print("---------- Que pena, você perdeu. ----------")
-        print("A palavra era: ", end="")
-        for n in word: print(f"{n}", end="")
-        end = True
+if ganhou: # Condição para mostrar se o jogador ganhou ou não
+   print (f" ========== Parabens você ganhou!!!A palavra era: {palavra} ========== ")
+else:
+   print (f" ---------- você perdeu :( A palavra era: {palavra} ---------- ")
