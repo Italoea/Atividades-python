@@ -6,7 +6,7 @@ def lancar_dado_simples(n):
     frequencias = {face: resultados.count(face) for face in range(1, 7)}
     return frequencias
 
-# Exemplo de uso
+
 n = int(input("Quantas vezes você deseja lançar o dado? "))
 frequencias = lancar_dado_simples(n)
 print("Frequências de cada face:", frequencias)
